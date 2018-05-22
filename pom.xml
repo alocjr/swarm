@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  ~ Copyright 2016-2017 Red Hat, Inc, and individual contributors.
+  ~
+  ~  Copyright 2016-2017 Red Hat, Inc, and individual contributors.
   ~
   ~  Licensed under the Apache License, Version 2.0 (the "License");
   ~  you may not use this file except in compliance with the License.
@@ -13,6 +14,7 @@
   ~  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
   ~  See the License for the specific language governing permissions and
   ~  limitations under the License.
+  ~
   -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
@@ -23,22 +25,18 @@
     <version>20</version>
   </parent>
 
-  <groupId>io.openshift.boosters</groupId>
-  <artifactId>wfswarm-rest-http-crud</artifactId>
-  <version>7.1.0-redhat-2-SNAPSHOT</version>
+  <groupId>io.openshift.booster</groupId>
+  <artifactId>wfswarm-rest-http</artifactId>
+  <version>13-SNAPSHOT</version>
   <packaging>war</packaging>
 
-  <name>WildFly Swarm Booster - Relational Database Backend Mission</name>
+  <name>WildFly Swarm Booster - REST API Level 0 Mission</name>
 
   <properties>
-    <version.wildfly.swarm>7.1.0.redhat-77</version.wildfly.swarm>
+    <version.wildfly.swarm>2018.3.3</version.wildfly.swarm>
     <version.resteasy>3.0.24.Final</version.resteasy>
     <version.restassured>3.0.7</version.restassured>
     <version.awaitility>3.1.0</version.awaitility>
-    <version.assertj>3.8.0</version.assertj>
-    <version.override.jackson>2.7.7</version.override.jackson>
-    <version.h2>1.4.187</version.h2>
-    <version.postgresql>9.4.1207</version.postgresql>
   </properties>
 
   <dependencyManagement>
@@ -50,30 +48,13 @@
         <type>pom</type>
         <scope>import</scope>
       </dependency>
-      <dependency>
-        <groupId>org.wildfly.swarm</groupId>
-        <artifactId>bom-certified</artifactId>
-        <version>${version.wildfly.swarm}</version>
-        <type>pom</type>
-        <scope>import</scope>
-      </dependency>
     </dependencies>
   </dependencyManagement>
 
   <dependencies>
     <dependency>
       <groupId>org.wildfly.swarm</groupId>
-      <artifactId>jaxrs-jsonp</artifactId>
-    </dependency>
-
-    <dependency>
-      <groupId>org.wildfly.swarm</groupId>
-      <artifactId>cdi</artifactId>
-    </dependency>
-
-    <dependency>
-      <groupId>org.wildfly.swarm</groupId>
-      <artifactId>jpa</artifactId>
+      <artifactId>jaxrs</artifactId>
     </dependency>
 
     <dependency>
@@ -89,22 +70,8 @@
     </dependency>
 
     <dependency>
-      <groupId>commons-logging</groupId>
-      <artifactId>commons-logging</artifactId>
-      <version>1.1.1</version>
-      <scope>test</scope>
-    </dependency>
-
-    <dependency>
       <groupId>org.wildfly.swarm</groupId>
       <artifactId>arquillian</artifactId>
-      <scope>test</scope>
-    </dependency>
-
-    <dependency>
-      <groupId>org.jboss.arquillian.junit</groupId>
-      <artifactId>arquillian-junit-container</artifactId>
-      <version>1.1.12.Final</version>
       <scope>test</scope>
     </dependency>
 
@@ -112,21 +79,14 @@
       <groupId>io.rest-assured</groupId>
       <artifactId>rest-assured</artifactId>
       <version>${version.restassured}</version>
-      <scope>test</scope>
+      <scope>test</scope> 
     </dependency>
 
     <dependency>
-      <groupId>org.awaitility</groupId>
-      <artifactId>awaitility</artifactId>
-      <version>${version.awaitility}</version>
-      <scope>test</scope>
-    </dependency>
-
-    <dependency>
-      <groupId>org.assertj</groupId>
-      <artifactId>assertj-core</artifactId>
-      <version>${version.assertj}</version>
-      <scope>test</scope>
+        <groupId>org.awaitility</groupId>
+        <artifactId>awaitility</artifactId>
+        <version>${version.awaitility}</version>
+        <scope>test</scope>
     </dependency>
 
     <dependency>
@@ -140,13 +100,6 @@
         </exclusion>
       </exclusions>
     </dependency>
-
-    <dependency>
-      <groupId>org.jboss.resteasy</groupId>
-      <artifactId>resteasy-jackson2-provider</artifactId>
-      <version>${version.resteasy}</version>
-      <scope>test</scope>
-    </dependency>
   </dependencies>
 
   <build>
@@ -159,9 +112,6 @@
             <classpathDependencyExclude>org.arquillian.cube:arquillian-cube-openshift</classpathDependencyExclude>
             <classpathDependencyExclude>org.arquillian.cube:arquillian-cube-kubernetes</classpathDependencyExclude>
           </classpathDependencyExcludes>
-          <systemPropertyVariables>
-            <swarm.build.repos>https://maven.repository.redhat.com/ga/,https://maven.repository.redhat.com/earlyaccess/all/</swarm.build.repos>
-          </systemPropertyVariables>
         </configuration>
       </plugin>
 
@@ -176,12 +126,6 @@
             </goals>
           </execution>
         </executions>
-        <configuration>
-          <arguments>
-            <argument>-S</argument>
-            <argument>local</argument>
-          </arguments>
-        </configuration>
       </plugin>
 
       <plugin>
@@ -190,37 +134,11 @@
           <failOnMissingWebXml>false</failOnMissingWebXml>
         </configuration>
       </plugin>
+
     </plugins>
   </build>
 
   <profiles>
-    <profile>
-      <id>local</id>
-      <activation>
-        <activeByDefault>true</activeByDefault>
-      </activation>
-      <dependencies>
-        <dependency>
-          <groupId>com.h2database</groupId>
-          <artifactId>h2</artifactId>
-          <version>${version.h2}</version>
-        </dependency>
-      </dependencies>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-surefire-plugin</artifactId>
-            <configuration>
-              <systemPropertyVariables>
-                <swarm.project.stage>local</swarm.project.stage>
-              </systemPropertyVariables>
-            </configuration>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
-
     <profile>
       <id>openshift</id>
       <build>
@@ -254,101 +172,17 @@
               </enricher>
             </configuration>
           </plugin>
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-surefire-plugin</artifactId>
-            <configuration>
-              <skipTests>true</skipTests>
-            </configuration>
-          </plugin>
         </plugins>
       </build>
-      <dependencies>
-        <dependency>
-          <groupId>org.postgresql</groupId>
-          <artifactId>postgresql</artifactId>
-          <version>${version.postgresql}</version>
-        </dependency>
-      </dependencies>
     </profile>
-
     <profile>
       <id>openshift-it</id>
       <build>
         <plugins>
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-surefire-plugin</artifactId>
-            <configuration>
-              <skipTests>true</skipTests>
-            </configuration>
-          </plugin>
-          <!--
-            - 1.
-            -
-            - For running the test, we need the Jackson dependencies in a higher version than what is brought in by Swarm.
-            - Unfortunately, Failsafe can't be configured do add specific artifacts to the test classpath, just files,
-            - so we need to download the dependencies manually. This is what this plugin execution does.
-            -->
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-dependency-plugin</artifactId>
-            <executions>
-              <execution>
-                <id>prepare-jackson-dependencies-for-integration-test</id>
-                <phase>pre-integration-test</phase>
-                <goals>
-                  <goal>copy</goal>
-                </goals>
-                <configuration>
-                  <stripVersion>true</stripVersion>
-                  <artifactItems>
-                    <artifactItem>
-                      <groupId>com.fasterxml.jackson.core</groupId>
-                      <artifactId>jackson-core</artifactId>
-                      <version>${version.override.jackson}</version>
-                    </artifactItem>
-                    <artifactItem>
-                      <groupId>com.fasterxml.jackson.core</groupId>
-                      <artifactId>jackson-annotations</artifactId>
-                      <version>${version.override.jackson}</version>
-                    </artifactItem>
-                    <artifactItem>
-                      <groupId>com.fasterxml.jackson.core</groupId>
-                      <artifactId>jackson-databind</artifactId>
-                      <version>${version.override.jackson}</version>
-                    </artifactItem>
-                  </artifactItems>
-                </configuration>
-              </execution>
-            </executions>
-          </plugin>
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-failsafe-plugin</artifactId>
             <configuration>
-              <!--
-                - 2.
-                -
-                - These artifacts are added to the test classpath automatically because they are project dependencies.
-                - However, they are of too old versions, so we remove them here and add correct versions later.
-                -->
-              <classpathDependencyExcludes>
-                <classpathDependencyExclude>com.fasterxml.jackson.core:jackson-core</classpathDependencyExclude>
-                <classpathDependencyExclude>com.fasterxml.jackson.core:jackson-annotations</classpathDependencyExclude>
-                <classpathDependencyExclude>com.fasterxml.jackson.core:jackson-databind</classpathDependencyExclude>
-              </classpathDependencyExcludes>
-              <!--
-                - 3.
-                -
-                - And here, we add the correct versions of the artifacts to test classpath. Unfortunately,
-                - this is only possible by file paths, not by artifact coordinates.
-                -->
-              <additionalClasspathElements>
-                <additionalClasspathElement>${project.build.directory}/dependency/jackson-core.jar</additionalClasspathElement>
-                <additionalClasspathElement>${project.build.directory}/dependency/jackson-annotations.jar</additionalClasspathElement>
-                <additionalClasspathElement>${project.build.directory}/dependency/jackson-databind.jar</additionalClasspathElement>
-              </additionalClasspathElements>
               <systemPropertyVariables>
                 <app.name>${project.artifactId}</app.name>
               </systemPropertyVariables>
