@@ -20,4 +20,4 @@ spec:
             - name: GC_MAX_METASPACE_SIZE
               value: "150"
             - name: JAVA_OPTIONS
-              value: "-Dswarm.datasources.data-sources.MyDS.connection-url=jdbc:postgresql://$(MY_DATABASE_SERVICE_HOST):$(MY_DATABASE_SERVICE_PORT)/my_data -Dswarm.datasources.data-sources.MyDS.user-name=$(DB_USERNAME) -Dswarm.datasources.data-sources.MyDS.password=$(DB_PASSWORD) -Dswarm.datasources.data-sources.MyDS.driver-name=postgresql"
+              value: "-Dswarm.datasources.data-sources.MyDS.connection-url=jdbc:h2:mem:fruits;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE -Dswarm.datasources.data-sources.MyDS.user-name=sa -Dswarm.datasources.data-sources.MyDS.password=sa -Dswarm.datasources.data-sources.MyDS.driver-name=h2"
