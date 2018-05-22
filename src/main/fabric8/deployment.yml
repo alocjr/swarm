@@ -21,3 +21,11 @@ spec:
               value: "150"
             - name: JAVA_OPTIONS
               value: "-Dswarm.datasources.data-sources.MyDS.connection-url=jdbc:h2:mem:fruits;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE -Dswarm.datasources.data-sources.MyDS.user-name=sa -Dswarm.datasources.data-sources.MyDS.password=sa -Dswarm.datasources.data-sources.MyDS.driver-name=h2"
+swarm:
+  datasources:
+    data-sources:
+      MyDS:
+        driver-name: h2
+        connection-url: jdbc:h2:mem:fruits;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+        user-name: sa
+        password: sa
